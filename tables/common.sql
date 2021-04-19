@@ -1,0 +1,25 @@
+USE traindb;
+GO
+
+
+DROP TABLE IF EXISTS SoundFiles
+GO
+CREATE TABLE FileStates
+(
+    StateId TINYINT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    StateName VARCHAR(250)
+)
+GO
+
+DROP TABLE IF EXISTS SoundFiles
+GO
+
+CREATE TABLE SoundFiles
+(
+    FileId INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    StateId TINYINT NOT NULL,
+    FileNameStr VARCHAR(250),
+    DateOfAdd DATETIME
+    CONSTRAINT [FK_SoundFiles_FileStates] FOREIGN KEY (StateId) REFERENCES FileStates (StateId),
+    CONSTRAINT [UX_FileNameStr] UNIQUE (FileNameStr)
+)
