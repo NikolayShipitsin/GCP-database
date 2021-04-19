@@ -8,6 +8,7 @@ CREATE TABLE FileStates
 (
     StateId TINYINT NOT NULL PRIMARY KEY IDENTITY(1,1),
     StateName VARCHAR(250)
+    CONSTRAINT [UX_State] UNIQUE (StateName)
 )
 GO
 
