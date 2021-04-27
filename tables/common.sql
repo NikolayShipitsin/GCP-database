@@ -5,24 +5,33 @@ GO
 DROP TABLE IF EXISTS FileStates;
 DROP SEQUENCE IF EXISTS dbo.FileStatesIds;
 GO
+
+CREATE SEQUENCE dbo.FileStatesIds AS int START WITH 1 INCREMENT BY 1;
+GO
 CREATE TABLE FileStates
 (
-    StateId TINYINT NOT NULL DEFAULT NEXT VALUE FOR dbo.PrototypesIds,
+    StateId TINYINT NOT NULL DEFAULT NEXT VALUE FOR dbo.FileStatesIds,
     StateName VARCHAR(250)
-    CONSTRAINT [UX_State] UNIQUE (StateName)
+    CONSTRAINT [UX_State] UNIQUE (StateName),
+    CONSTRAINT [PK_States] PRIMARY KEY (StateId)
 )
 GO
 
+
 DROP TABLE IF EXISTS SoundFiles;
-DROP SEQUENCE IF EXISTS dbo.SoundFilesIds;
+DROP SEQUENCE IF EXISTS SoundFilesIds;
+GO
+
+CREATE SEQUENCE dbo.SoundFilesIds AS int START WITH 1 INCREMENT BY 1 CYCLE CACHE 1000;
 GO
 
 CREATE TABLE SoundFiles
 (
-    FileId INT NOT NULL  DEFAULT NEXT VALUE FOR dbo.PrototypesIds,
+    FileId INT NOT NULL  DEFAULT NEXT VALUE FOR dbo.SoundFilesIds,
     StateId TINYINT NOT NULL,
     FileNameStr VARCHAR(250),
     DateOfAdd DATETIME
+    CONSTRAINT [PK_Files] PRIMARY KEY (FileId),
     CONSTRAINT [FK_SoundFiles_FileStates] FOREIGN KEY (StateId) REFERENCES FileStates (StateId),
     CONSTRAINT [UX_FileNameStr] UNIQUE (FileNameStr)
 )
