@@ -19,5 +19,23 @@ BEGIN
         @curStateName varchar(250) = @StateName
 
     EXEC @errorNumber = get_FileState
-        @curStateId,
-        @curStateName
+        @curStateId OUTPUT,
+        @curStateName OUTPUT
+    
+    IF @errorNumber < 0
+    BEGIN
+
+        IF @CStateName IS NULL
+            RETURN @resultCode;
+        ;
+
+        IF @StateId IS NULL
+            SELECT @StateId = NEXT VALUE FOR dbo.FileStatesIds;
+        ;
+
+        EXEC @errorNumber = add_FileState
+            @StateId,
+            @StateName
+        ;
+        
+    END
